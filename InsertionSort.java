@@ -18,7 +18,6 @@ public class InsertionSort
         int N = data.length;
         // insertion sort
         for (int i = 1; i < N; i++) {
-            // 
             for (int j = i; j > 0; j--) {
                 if (lessthan(data[j], data[j - 1])) exchange(data, j, j - 1);
                 else                                break;
