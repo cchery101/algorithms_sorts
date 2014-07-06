@@ -1,7 +1,7 @@
 
 import java.util.Arrays;
 
-public class SelectionSort<Item>
+public class SelectionSort
 {
     private static boolean lessthan(Comparable a, Comparable b) {
         return a.compareTo(b) < 0;
