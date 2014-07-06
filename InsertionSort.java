@@ -16,7 +16,6 @@ public class InsertionSort
     public static void sort(Comparable[] data)
     {
         int N = data.length;
-        int minval;
         // insertion sort
         for (int i = 1; i < N; i++) {
             // 
