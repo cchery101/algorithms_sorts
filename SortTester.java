@@ -14,8 +14,8 @@ public class SortTester {
             }
         }
         // run each sorting method
-        //System.out.println("Selection Sort");
-        //SelectionSort.sort(testarrays[0]);
+        System.out.println("Selection Sort");
+        SelectionSort.sort(testarrays[0]);
         System.out.println("Insertion Sort");
         InsertionSort.sort(testarrays[1]);
         System.out.println("Shell Sort");
