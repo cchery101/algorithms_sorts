@@ -21,7 +21,7 @@ public class SortTester {
         System.out.println("Shell Sort");
         ShellSort.shellsort(testarrays[2], 3);
         System.out.println("Bottom Up Merge Sort");
-        MergeSort.bottomup(testarrays[3], 2);
+        MergeSort.bottomup(testarrays[3]);
         System.out.println("Top Down Merge Sort");
         MergeSort.topdown(testarrays[4], 7);
         System.out.println("Done");

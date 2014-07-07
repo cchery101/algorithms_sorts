@@ -76,8 +76,6 @@ public class MergeSort
                 endpoint = Math.min(i + elemsize, N) - 1;
                 merge(data, workarray, i, i + elemsize / 2, endpoint);
             }
-            System.out.println(String.format("Element size: %d", elemsize));
-            System.out.println(Arrays.toString(data));
         }
     }
 
