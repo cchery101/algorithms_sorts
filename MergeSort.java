@@ -1,5 +1,6 @@
 
 import java.util.Arrays;
+import java.lang.Math;
 
 public class MergeSort
 {
@@ -25,16 +26,22 @@ public class MergeSort
     }
     
     public static void insertionsort(Comparable[] data) {
+        insertionsort(data, 0, data.length - 1);
+    }
+
+    // insertion sort used for small subarrays
+    public static void insertionsort(Comparable[] data, int lo, int hi) {
         int N = data.length;
         // insertion sort
-        for (int i = 1; i < N; i++) {
-            for (int j = i; j > 0; j--) {
+        for (int i = lo + 1; i <= hi; i++) {
+            for (int j = i; j > lo; j--) {
                 if (lessthan(data[j], data[j - 1])) exchange(data, j, j - 1);
                 else                                break;
             }
         }
     }
 
+    // merge two sorted subarrays
     public static void merge(Comparable[] data, int lo, int mid, int hi) {
         // debug checks
         assert issorted(data, lo, mid - 1);
@@ -57,22 +64,40 @@ public class MergeSort
         }
     }
 
+    // bottom up merging from insertion sorted subarrays
     public static void bottomup(Comparable[] data, int insertionsize) {
-        if data.length < insertionsize {
-            data = insertionsort(data);
-            return;
+        int N = data.length;
+        int endpoint = Math.min(insertionsize, N) - 1;
         // sort first group using insertion
-        insertionsort(data, 0, insertionsize - 1);
-        // loop through groups, sorting internally then combining
+        insertionsort(data, 0, endpoint);
+        // loop through groups, sorting internally then merging with previous
         for (int start = insertionsize; start < N; start += insertionsize) {
+            endpoint = Math.min(start + insertionsize, N) - 1;
             // insertion sort for this group
-            insertionsort(data, start, start + insertionsize - 1);
+            insertionsort(data, start, endpoint);
             // merge with previous values (all sorted)
-            merge(data, 0, start, start + insertionsize - 1);
+            merge(data, 0, start, endpoint);
         }
-        // final section of array
-        insertionsort(data, start - insertionsize, data.length - 1);
-        merge(data, 0, start - insertionsize, data.length - 1)
+    }
+
+    // merge sort by halving (wrapper for lo-hi recursive sort)
+    public static void topdown(Comparable[] data, int insertionsize) {
+        topdown(data, insertionsize, 0, data.length - 1);
+    }
+
+    // recursive component of merge
+    public static void topdown(Comparable[] data, int insertionsize, int lo, int hi) {
+        // sort by insertion below size limit
+        if (hi - lo + 1 <= insertionsize) {
+            insertionsort(data, lo, hi);
+            return;
+        }
+        // sort two halves
+        int mid = lo + (hi - lo + 1) / 2;
+        topdown(data, insertionsize, lo, mid - 1);
+        topdown(data, insertionsize, mid, hi);
+        // merge sorted halves
+        merge(data, lo, mid, hi);
     }
 
     public static void main(String[] args)
@@ -91,5 +116,26 @@ public class MergeSort
         merge(myintarray2, 1, 5, 8);
         System.out.println(Arrays.toString(myintarray2));
         System.out.println(issorted(myintarray2, 1, 8));
+        // test insertion sort by section
+        System.out.println("Partial insertion sort test");
+        Integer[] myintarray3 = new Integer[] {3, 4, 1, 2, 7, 5, 9, 10, 6, 8};
+        System.out.println(Arrays.toString(myintarray3));
+        insertionsort(myintarray3, 1, 8);
+        System.out.println(Arrays.toString(myintarray3));
+        System.out.println(issorted(myintarray3, 1, 8));
+        // test bottom up merge sort
+        System.out.println("Bottom up merge");
+        Integer[] myintarray4 = new Integer[] {3, 10, 5, 11, 2, 7, 8, 6, 4, 9, 1};
+        System.out.println(Arrays.toString(myintarray4));
+        bottomup(myintarray4, Integer.parseInt(args[0]));
+        System.out.println(Arrays.toString(myintarray4));
+        System.out.println(issorted(myintarray4));
+        // test top down merge sort
+        System.out.println("Top down merge");
+        Integer[] myintarray5 = new Integer[] {3, 10, 5, 11, 2, 7, 8, 6, 4, 9, 1};
+        System.out.println(Arrays.toString(myintarray5));
+        topdown(myintarray5, Integer.parseInt(args[0]));
+        System.out.println(Arrays.toString(myintarray5));
+        System.out.println(issorted(myintarray5));
     }
 }
