@@ -40,7 +40,6 @@ public class ShellSort
                 }
             }
         }
-        System.out.println(ishsorted(data, h));
     }
 
     public static void shellsort(Comparable[] data, int divisor) {
