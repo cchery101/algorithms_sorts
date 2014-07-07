@@ -42,23 +42,23 @@ public class MergeSort
     }
 
     // merge two sorted subarrays
-    public static void merge(Comparable[] data, int lo, int mid, int hi) {
+    public static void merge(Comparable[] data, Comparable[] workarray,
+                            int lo, int mid, int hi) {
         // debug checks
         assert issorted(data, lo, mid - 1);
         assert issorted(data, mid, hi);
-        // temporary copy (should create this outside??)
-        Comparable[] datacopy = new Comparable[data.length];
-        for (int i = 0; i < data.length; i++)
-            { datacopy[i] = data[i]; }
+        // temporary copy for the required range
+        for (int i = lo; i <= hi; i++)
+            { workarray[i] = data[i]; }
         int ptlo = lo;
         int pthi = mid;
         for (int i = lo; i <= hi; i++) {
-            if ((pthi > hi) || (lessthan(datacopy[ptlo], datacopy[pthi]) && ptlo < mid)) {
-                data[i] = datacopy[ptlo];
+            if ((pthi > hi) || (lessthan(workarray[ptlo], workarray[pthi]) && ptlo < mid)) {
+                data[i] = workarray[ptlo];
                 ptlo++;
             }
             else {
-                data[i] = datacopy[pthi];
+                data[i] = workarray[pthi];
                 pthi++;
             }
         }
@@ -67,6 +67,7 @@ public class MergeSort
     // bottom up merging from insertion sorted subarrays
     public static void bottomup(Comparable[] data, int insertionsize) {
         int N = data.length;
+        Comparable[] workarray = new Comparable[N];
         int endpoint = Math.min(insertionsize, N) - 1;
         // sort first group using insertion
         insertionsort(data, 0, endpoint);
@@ -76,17 +77,19 @@ public class MergeSort
             // insertion sort for this group
             insertionsort(data, start, endpoint);
             // merge with previous values (all sorted)
-            merge(data, 0, start, endpoint);
+            merge(data, workarray, 0, start, endpoint);
         }
     }
 
     // merge sort by halving (wrapper for lo-hi recursive sort)
     public static void topdown(Comparable[] data, int insertionsize) {
-        topdown(data, insertionsize, 0, data.length - 1);
+        Comparable[] workarray = new Comparable[data.length];
+        topdown(data, workarray, insertionsize, 0, data.length - 1);
     }
 
     // recursive component of merge
-    public static void topdown(Comparable[] data, int insertionsize, int lo, int hi) {
+    public static void topdown(Comparable[] data, Comparable[] workarray,
+                            int insertionsize, int lo, int hi) {
         // sort by insertion below size limit
         if (hi - lo + 1 <= insertionsize) {
             insertionsort(data, lo, hi);
@@ -94,26 +97,29 @@ public class MergeSort
         }
         // sort two halves
         int mid = lo + (hi - lo + 1) / 2;
-        topdown(data, insertionsize, lo, mid - 1);
-        topdown(data, insertionsize, mid, hi);
+        topdown(data, workarray, insertionsize, lo, mid - 1);
+        topdown(data, workarray, insertionsize, mid, hi);
         // merge sorted halves
-        merge(data, lo, mid, hi);
+        merge(data, workarray, lo, mid, hi);
     }
 
     public static void main(String[] args)
     {
+        Integer[] workarray;
         // test merge with integers
         System.out.println("Last > mid");
         Integer[] myintarray1 = new Integer[] {1, 3, 4, 5, 7, 2, 6, 8, 9, 10};
+        workarray = new Integer[myintarray1.length];
         System.out.println(Arrays.toString(myintarray1));
-        merge(myintarray1, 1, 5, 8);
+        merge(myintarray1, workarray, 1, 5, 8);
         System.out.println(Arrays.toString(myintarray1));
         System.out.println(issorted(myintarray1, 1, 8));
         // test merge with integers
         System.out.println("Last < mid");
         Integer[] myintarray2 = new Integer[] {2, 4, 6, 9, 10, 1, 3, 5, 8, 7};
+        workarray = new Integer[myintarray2.length];
         System.out.println(Arrays.toString(myintarray2));
-        merge(myintarray2, 1, 5, 8);
+        merge(myintarray2, workarray, 1, 5, 8);
         System.out.println(Arrays.toString(myintarray2));
         System.out.println(issorted(myintarray2, 1, 8));
         // test insertion sort by section
