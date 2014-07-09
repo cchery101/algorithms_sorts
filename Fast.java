@@ -88,6 +88,11 @@ public class Fast {
                 else {
                     if (online) {
                         // finish the current line
+                        for (Line l: lines) {
+                            if (l.hassubset(currentline)) {
+                                System.out.println("(duplicate)");
+                            }
+                        }
                         lines.enqueue(currentline);
                         System.out.println();
                     }
@@ -96,6 +101,11 @@ public class Fast {
                 currentslope = slope;
             }
             if (online) {
+                for (Line l: lines) {
+                    if (l.hassubset(currentline)) {
+                        System.out.println("(duplicate)");
+                    }
+                }
                 lines.enqueue(currentline);
                 System.out.println();
             }
@@ -122,11 +132,6 @@ public class Fast {
         // print lines
         System.out.println("Printing Lines");
         for (Line l: testobj.lines) {
-            for (Line parent: testobj.lines) {
-                if (parent.hassubset(l)) {
-                    System.out.print("Dupl  ");
-                }
-            }
             l.printline();
         }
     }
