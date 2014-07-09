@@ -3,17 +3,24 @@ import java.util.Arrays;
 
 public class SelectionSort
 {
-    private static boolean lessthan(Comparable a, Comparable b) {
+    // method invocation counters
+    public int exchangecount = 0;
+    public int comparecount = 0;
+
+    // implementation
+    private boolean lessthan(Comparable a, Comparable b) {
+        comparecount++;
         return a.compareTo(b) < 0;
     }
     
-    private static void exchange(Comparable[] data, int i, int j) {
+    private void exchange(Comparable[] data, int i, int j) {
+        exchangecount++;
         Comparable temp = data[i];
         data[i] = data[j];
         data[j] = temp;
     }
     
-    public static void sort(Comparable[] data)
+    public void sort(Comparable[] data)
     {
         int N = data.length;
         int minval;
@@ -29,15 +36,22 @@ public class SelectionSort
 
     public static void main(String[] args)
     {
+        SelectionSort testobj;
         // test with integers
+        testobj = new SelectionSort();
         Integer[] myintarray = new Integer[] {3, 4, 5, 1, 2, 7, 8, 6, 10, 9, 11};
         System.out.println(Arrays.toString(myintarray));
-        SelectionSort.sort(myintarray);
+        testobj.sort(myintarray);
         System.out.println(Arrays.toString(myintarray));
+        System.out.println(String.format("Compares: %d   Exchanges: %d",
+            testobj.comparecount, testobj.exchangecount));
         // test with strings
+        testobj = new SelectionSort();
         String[] mystrarray = new String[] {"C", "B", "F", "A", "D", "E"};
         System.out.println(Arrays.toString(mystrarray));
-        SelectionSort.sort(mystrarray);
+        testobj.sort(mystrarray);
         System.out.println(Arrays.toString(mystrarray));
+        System.out.println(String.format("Compares: %d   Exchanges: %d",
+            testobj.comparecount, testobj.exchangecount));
     }
 }
