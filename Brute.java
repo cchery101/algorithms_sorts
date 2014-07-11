@@ -31,6 +31,7 @@ public class Brute {
         // read in the input file
         In in = new In(args[0]);      // input file
         int N = in.readInt();         // N points in the set
+        if (N < 4)  return;
         Point[] points = new Point[N];
         int idx = 0;
         // read in data to create Point objects
