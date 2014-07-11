@@ -35,24 +35,6 @@ public class Fast {
         public void drawline() {
             startpoint.drawTo(endpoint);
         }
-        public boolean hassubset(Line that) {
-            Iterator<Point> thisiter = points.iterator();
-            for (int i = 0; i < points.size() - that.points.size(); i++)
-                { thisiter.next(); }
-            Iterator<Point> thatiter = that.points.iterator();
-            try {
-                while (true) {
-                    if (thisiter.next().compareTo(thatiter.next()) != 0) {
-                        // mismatch, so not a subset
-                        return false;
-                    }
-                }
-            }
-            catch (NoSuchElementException e) {
-                // reached end of list without a mismatch
-                return true;
-            }
-        }
     }
 
     private void getlines(Point[] points) {
@@ -74,7 +56,6 @@ public class Fast {
             currentslope = start.slopeTo(points[1]);
             online = false;
             for (j = 2; j < N; j++) {
-                if (start.compareTo(points[j]) >= 0)    continue;
                 slope = start.slopeTo(points[j]);
                 if (slope == currentslope) {
                     if (online) {
@@ -85,28 +66,14 @@ public class Fast {
                     // found 3 collinear points to start a line
                         online = true;
                         currentline = new Line(start, points[j-1], points[j]);
-                    }
-                }
-                else {
-                    if (online) {
-                        // finish the current line
-                        isduplicate = false;
-                        for (Line l: lines) {
-                            if (l.hassubset(currentline))   isduplicate = true;
+                        if (start.compareTo(points[j-1]) < 0) {
+                            // not a duplicate
+                            lines.enqueue(currentline);
                         }
-                        if (!isduplicate)   lines.enqueue(currentline);
                     }
-                    online = false;
                 }
+                else    online = false;
                 currentslope = slope;
-            }
-            if (online) {
-                // finish the current line
-                isduplicate = false;
-                for (Line l: lines) {
-                    if (l.hassubset(currentline))   isduplicate = true;
-                }
-                if (!isduplicate)   lines.enqueue(currentline);
             }
         }
     }
