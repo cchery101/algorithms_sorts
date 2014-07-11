@@ -40,16 +40,16 @@ public class Point implements Comparable<Point> {
     // plot this point to standard drawing
     public void draw() {
         /* DO NOT MODIFY */
-        StdDraw.setPenRadius(.02);
-        StdDraw.setPenColor(StdDraw.BOOK_BLUE);
+        //StdDraw.setPenRadius(.02);
+        //StdDraw.setPenColor(StdDraw.BOOK_BLUE);
         StdDraw.point(x, y);
     }
 
     // draw line between this point and that point to standard drawing
     public void drawTo(Point that) {
         /* DO NOT MODIFY */
-        StdDraw.setPenRadius(.005);
-        StdDraw.setPenColor(StdDraw.BLACK);
+        //StdDraw.setPenRadius(.005);
+        //StdDraw.setPenColor(StdDraw.BLACK);
         StdDraw.line(this.x, this.y, that.x, that.y);
     }
 

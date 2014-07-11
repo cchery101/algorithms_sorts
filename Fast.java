@@ -95,7 +95,7 @@ public class Fast {
         // get lines from algorithm
         testobj.getlines(points);
         // draw points
-        StdDraw.setScale(-4, 20);
+        //StdDraw.setScale(-4, 20);
         for (Point p: points) {
             p.draw();
         }
