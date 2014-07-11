@@ -16,6 +16,7 @@ public class Fast {
             points.enqueue(pt2);
             points.enqueue(pt3);
             endpoint = pt3;
+            StdOut.println("Created new line");
         }
         public int size() {
             return points.size();
@@ -45,6 +46,7 @@ public class Fast {
         boolean online;
         boolean isduplicate;
         int i, j;
+        // initialise to avoid compiler error (not added to queue)
         Line currentline = new Line(points[0], points[1], points[2]);
         // sort points by increasing y coordinate
         for (i = 0; i < N; i++) {
@@ -60,16 +62,18 @@ public class Fast {
                 if (slope == currentslope) {
                     if (online) {
                         // already on a line, found an extra point
-                        currentline.addpoint(points[j]);
+                        if (currentline != null)
+                            currentline.addpoint(points[j]);
                     }
                     else {
                     // found 3 collinear points to start a line
                         online = true;
-                        currentline = new Line(start, points[j-1], points[j]);
                         if (start.compareTo(points[j-1]) < 0) {
                             // not a duplicate
+                            currentline = new Line(start, points[j-1], points[j]);
                             lines.enqueue(currentline);
                         }
+                        else    currentline = null;
                     }
                 }
                 else    online = false;
@@ -95,6 +99,7 @@ public class Fast {
         // get lines from algorithm
         testobj.getlines(points);
         // draw points
+        StdDraw.setScale(-4, 20);
         for (Point p: points) {
             p.draw();
         }
@@ -105,5 +110,6 @@ public class Fast {
                 l.drawline();
             }
         }
+        StdOut.println(testobj.lines.size());
     }
 }
