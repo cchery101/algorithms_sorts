@@ -14,9 +14,12 @@ public class Brute {
         for (l = k + 1; l < N; l++) { d = points[l];
             if (a.slopeTo(b) == a.slopeTo(c) &&
                 a.slopeTo(c) == a.slopeTo(d))
-                { System.out.println(String.format(
+            {
+                System.out.println(String.format(
                     "%s -> %s -> %s -> %s", a.toString(), b.toString(),
-                    c.toString(), d.toString())); }
+                    c.toString(), d.toString()));
+                a.drawTo(d);
+            }
         }}}}
     }
 
@@ -31,6 +34,7 @@ public class Brute {
             int i = in.readInt();
             int j = in.readInt();
             points[idx] = new Point(i, j);
+            points[idx].draw();
             idx++;
         }
         getlines(points);
