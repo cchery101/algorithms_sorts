@@ -25,12 +25,12 @@ public class Fast {
             endpoint = pt;
         }
         public void printline() {
-            System.out.print(points.dequeue().toString());
+            StdOut.print(points.dequeue().toString());
             for (Point pt: points) {
-                System.out.print(" -> ");
-                System.out.print(pt.toString());
+                StdOut.print(" -> ");
+                StdOut.print(pt.toString());
             }
-            System.out.println();
+            StdOut.println();
         }
         public void drawline() {
             startpoint.drawTo(endpoint);
@@ -94,7 +94,9 @@ public class Fast {
                     if (online) {
                         // finish the current line
                         isduplicate = false;
-                        for (Line l: lines) { if (l.hassubset(currentline)) { isduplicate = true; }}
+                        for (Line l: lines) {
+                            if (l.hassubset(currentline))   isduplicate = true;
+                        }
                         if (!isduplicate)   lines.enqueue(currentline);
                     }
                     online = false;
@@ -104,7 +106,9 @@ public class Fast {
             if (online) {
                 // finish the current line
                 isduplicate = false;
-                for (Line l: lines) { if (l.hassubset(currentline)) { isduplicate = true; }}
+                for (Line l: lines) {
+                    if (l.hassubset(currentline))   isduplicate = true;
+                }
                 if (!isduplicate)   lines.enqueue(currentline);
             }
         }
