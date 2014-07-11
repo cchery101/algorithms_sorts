@@ -29,9 +29,13 @@ public class Fast {
             }
             System.out.println();
         }
+        public void drawline() {
+            startpoint.drawTo(endpoint);
+        }
         public boolean hassubset(Line that) {
             Iterator<Point> thisiter = points.iterator();
-            thisiter.next();
+            for (int i = 0; i < points.size() - that.points.size(); i++)
+                { thisiter.next(); }
             Iterator<Point> thatiter = that.points.iterator();
             try {
                 while (true) {
@@ -56,6 +60,7 @@ public class Fast {
         double slope;
         boolean online;
         int linestart;
+        boolean isduplicate;
         Line currentline = new Line(points[0], points[1], points[2]);
         // sort points by increasing y coordinate
         Arrays.sort(points);
@@ -88,12 +93,10 @@ public class Fast {
                 else {
                     if (online) {
                         // finish the current line
-                        for (Line l: lines) {
-                            if (l.hassubset(currentline)) {
-                                System.out.println("(duplicate)");
-                            }
-                        }
-                        lines.enqueue(currentline);
+                        isduplicate = false;
+                        for (Line l: lines) { if (l.hassubset(currentline)) { isduplicate = true; }}
+                        if (isduplicate)    System.out.println("    (duplicate)");
+                        else                lines.enqueue(currentline);
                         System.out.println();
                     }
                     online = false;
@@ -101,12 +104,11 @@ public class Fast {
                 currentslope = slope;
             }
             if (online) {
-                for (Line l: lines) {
-                    if (l.hassubset(currentline)) {
-                        System.out.println("(duplicate)");
-                    }
-                }
-                lines.enqueue(currentline);
+                // finish the current line
+                isduplicate = false;
+                for (Line l: lines) { if (l.hassubset(currentline)) { isduplicate = true; }}
+                if (isduplicate)    System.out.println("    (duplicate)");
+                else                lines.enqueue(currentline);
                 System.out.println();
             }
         }
@@ -129,10 +131,20 @@ public class Fast {
         // get lines
         System.out.println("Getting Lines");
         testobj.getlines(points);
+        // drawing
+        StdDraw.clear();
+        StdDraw.setPenColor(StdDraw.BLACK);
+        //StdDraw.setXscale(0, N);
+        //StdDraw.setYscale(0, N);
         // print lines
         System.out.println("Printing Lines");
+        for (Point p: points) {
+            p.draw();
+        }
         for (Line l: testobj.lines) {
             l.printline();
+            l.drawline();
         }
+        StdDraw.show();
     }
 }
