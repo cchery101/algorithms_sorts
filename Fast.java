@@ -128,23 +128,16 @@ public class Fast {
             points[idx] = new Point(i, j);
             idx++;
         }
-        // get lines
-        System.out.println("Getting Lines");
+        // get lines from algorithm
         testobj.getlines(points);
-        // drawing
-        StdDraw.clear();
-        StdDraw.setPenColor(StdDraw.BLACK);
-        //StdDraw.setXscale(0, N);
-        //StdDraw.setYscale(0, N);
-        // print lines
-        System.out.println("Printing Lines");
+        // draw points
         for (Point p: points) {
             p.draw();
         }
+        // draw and print lines
         for (Line l: testobj.lines) {
             l.printline();
             l.drawline();
         }
-        StdDraw.show();
     }
 }
