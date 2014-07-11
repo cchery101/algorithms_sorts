@@ -1,7 +1,5 @@
 
 import java.util.Arrays;
-import java.util.NoSuchElementException;
-import java.util.Iterator;
 
 public class Fast {
     private LinkedQueue<Line> lines = new LinkedQueue<Line>();
@@ -16,7 +14,6 @@ public class Fast {
             points.enqueue(pt2);
             points.enqueue(pt3);
             endpoint = pt3;
-            StdOut.println("Created new line");
         }
         public int size() {
             return points.size();
@@ -44,7 +41,6 @@ public class Fast {
         double currentslope;
         double slope;
         boolean online;
-        boolean isduplicate;
         int i, j;
         // initialise to avoid compiler error (not added to queue)
         Line currentline = new Line(points[0], points[1], points[2]);
@@ -105,11 +101,10 @@ public class Fast {
         }
         // draw and print lines
         for (Line l: testobj.lines) {
-            if (l.size() > 0) {
+            if (l.size() > 3) {
                 l.printline();
                 l.drawline();
             }
         }
-        StdOut.println(testobj.lines.size());
     }
 }
