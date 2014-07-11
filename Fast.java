@@ -57,37 +57,34 @@ public class Fast {
 
     private void getlines(Point[] points) {
         int N = points.length;
-        Point[] aux;
         Point start;
         double currentslope;
         double slope;
         boolean online;
-        int linestart;
         boolean isduplicate;
+        int i, j;
         Line currentline = new Line(points[0], points[1], points[2]);
         // sort points by increasing y coordinate
-        Arrays.sort(points);
-        for (int i = 0; i < N - 2; i++) {
+        for (i = 0; i < N; i++) {
+            Arrays.sort(points);
             start = points[i];
-            aux = new Point[N - i - 1];
-            for (int j = i + 1; j < N; j++) {
-                aux[j - (i + 1)] = points[j];
-            }
             // sort remaining points by slope to the current start
-            Arrays.sort(aux, start.SLOPE_ORDER);
-            currentslope = start.slopeTo(aux[0]);
+            Arrays.sort(points, start.SLOPE_ORDER);
+            // skip first element (it will be the start point in this order)
+            currentslope = start.slopeTo(points[1]);
             online = false;
-            for (int j = 1; j < N - i - 1; j++) {
-                slope = start.slopeTo(aux[j]);
+            for (j = 2; j < N; j++) {
+                if (start.compareTo(points[j]) >= 0)    continue;
+                slope = start.slopeTo(points[j]);
                 if (slope == currentslope) {
                     if (online) {
                         // already on a line, found an extra point
-                        currentline.addpoint(aux[j]);
+                        currentline.addpoint(points[j]);
                     }
                     else {
                     // found 3 collinear points to start a line
                         online = true;
-                        currentline = new Line(start, aux[j-1], aux[j]);
+                        currentline = new Line(start, points[j-1], points[j]);
                     }
                 }
                 else {
@@ -136,7 +133,7 @@ public class Fast {
         }
         // draw and print lines
         for (Line l: testobj.lines) {
-            if (l.size() > 3) {
+            if (l.size() > 0) {
                 l.printline();
                 l.drawline();
             }
