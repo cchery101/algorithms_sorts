@@ -17,6 +17,9 @@ public class Fast {
             points.enqueue(pt3);
             endpoint = pt3;
         }
+        public int size() {
+            return points.size();
+        }
         public void addpoint(Point pt) {
             points.enqueue(pt);
             endpoint = pt;
@@ -79,13 +82,10 @@ public class Fast {
                 if (slope == currentslope) {
                     if (online) {
                         // already on a line, found an extra point
-                        System.out.print(String.format(" --> %s", aux[j].toString()));
                         currentline.addpoint(aux[j]);
-                        }
+                    }
                     else {
                     // found 3 collinear points to start a line
-                        System.out.print(String.format("%s --> %s --> %s",
-                            start.toString(), aux[j-1].toString(), aux[j].toString()));
                         online = true;
                         currentline = new Line(start, aux[j-1], aux[j]);
                     }
@@ -95,9 +95,7 @@ public class Fast {
                         // finish the current line
                         isduplicate = false;
                         for (Line l: lines) { if (l.hassubset(currentline)) { isduplicate = true; }}
-                        if (isduplicate)    System.out.println("    (duplicate)");
-                        else                lines.enqueue(currentline);
-                        System.out.println();
+                        if (!isduplicate)   lines.enqueue(currentline);
                     }
                     online = false;
                 }
@@ -107,9 +105,7 @@ public class Fast {
                 // finish the current line
                 isduplicate = false;
                 for (Line l: lines) { if (l.hassubset(currentline)) { isduplicate = true; }}
-                if (isduplicate)    System.out.println("    (duplicate)");
-                else                lines.enqueue(currentline);
-                System.out.println();
+                if (!isduplicate)   lines.enqueue(currentline);
             }
         }
     }
@@ -136,8 +132,10 @@ public class Fast {
         }
         // draw and print lines
         for (Line l: testobj.lines) {
-            l.printline();
-            l.drawline();
+            if (l.size() > 3) {
+                l.printline();
+                l.drawline();
+            }
         }
     }
 }
